@@ -4,29 +4,42 @@
 ast parse(tokenlist_t tokens) {
     typedef unsigned short int bool_t;
     ast __ast;
+    __ast.__parse_status = PARSE_SUCCESS;
     __ast.tree_size = 20;
     __ast.nodes = (astnode_t*)malloc(sizeof(struct __AST_NODE) * __ast.tree_size);
-    bool_t end_statement = 0;
-    token_t last_token;  /* For initial check. */
+    bool_t semicolon_found = 0;
+    token_t lastToken;
+
+    unsigned int lparenCount = 0;
+    unsigned int rparenCount = 0;
 
     for (int i = 0; i < tokens.size; ++i) {
-        last_token = tokens.tokens[i];
-        printf("%c\n", tokens.tokens[i].character);
+        lastToken = tokens.tokens[i];
         if (tokens.tokens[i].type == T_END_STATEMENT) {
-            end_statement = 1;
+            semicolon_found = 1;
+        } else if (tokens.tokens[i].type == T_LPAREN) {
+            ++lparenCount;
+        } else if (tokens.tokens[i].type == T_RPAREN) {
+            ++rparenCount;
+        }
+
+        if (tokens.tokens[i].type == T_NEWLINE) {
+            if (!(semicolon_found)) {
+                __ast.__parse_status = SYNTAX_ERROR;
+                printf("ERROR: Missing semicolon on line %d.\n", lastToken.lineNumber);
+            } else if (lparenCount != rparenCount) {
+                __ast.__parse_status = SYNTAX_ERROR;
+                printf("ERROR: Unmatched parenthesis on line %d.", lastToken.lineNumber);
+            }
+
+            /* <== Begin Reset ==> */
+            semicolon_found = 0;
+            lparenCount = 0;
+            rparenCount = 0;
+            /* <== End Reset ==> */
         }
     }
 
-    if (!(end_statement)) {
-        printf("ERROR: Missing semicolon on line %d.", last_token.lineNumber);
-    }
-
-    for (int i = 0; i < tokens.size; ++i) {
-        switch (tokens.tokens[i].type) {
-            case T_LPAREN:
-
-        }
-    }
 
     return __ast;
 }

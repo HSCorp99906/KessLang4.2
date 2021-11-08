@@ -13,6 +13,18 @@ int main(int argc, char* argv[]) {
     tokenize(&tokenlist, source);
     ast __ast = parse(tokenlist);
 
+    if (__ast.__parse_status != PARSE_SUCCESS) {
+        /* We will de-allocate the elements
+        *  from memory and then terminate
+        *  the program.
+        */
+
+        destroy_tokenlist(&tokenlist);
+        free(source);
+        free(__ast.nodes);
+        return -1;
+    }
+
     destroy_tokenlist(&tokenlist);
     free(source);
     free(__ast.nodes);

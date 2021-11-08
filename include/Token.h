@@ -12,6 +12,7 @@ typedef enum __TokenTypes {
     T_CHAR,
     T_INTEGER_LITERAL,
     T_END_STATEMENT,
+    T_NEWLINE,
 } tokentype_t;
 
 

@@ -96,7 +96,17 @@ void tokenize(tokenlist_t* tl, char* source) {
             if (source[i] == '\0') {
                 break;
             } else if (source[i] == '\n') {
+                tokenlist_add(create_token(T_NEWLINE, 0, NULL, source[i], lineNum), tl);
                 ++lineNum;
+            }
+
+            char lexReadBuffer[400];
+
+            for (int i = 0; i < strlen(lex); ++i) {
+                lexReadBuffer[i] = lex[i];
+                if (strcmp(lexReadBuffer, "out")) {
+                    tokenlist_add(create_token(T_IDENTIFER, T_OUT, NULL, source[i], lineNum), tl);
+                }
             }
 
         lexi = 0;
