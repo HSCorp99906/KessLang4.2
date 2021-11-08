@@ -101,11 +101,21 @@ void tokenize(tokenlist_t* tl, char* source) {
             }
 
             char lexReadBuffer[400];
+            unsigned short int canBeOut = 1;
 
             for (int i = 0; i < strlen(lex); ++i) {
                 lexReadBuffer[i] = lex[i];
-                if (strcmp(lexReadBuffer, "out")) {
-                    tokenlist_add(create_token(T_IDENTIFER, T_OUT, NULL, source[i], lineNum), tl);
+                if (strcmp(lexReadBuffer, "out") && canBeOut) {
+                    canBeOut = 0;
+                    unsigned int parenBufi = 0;
+                    char parenBuf[5000];
+
+                    for (int j = i + 5; j < strlen(source) && source[j] != '"' && source[j] != ')'; ++j) {
+                        parenBuf[parenBufi] = source[j];
+                        ++parenBufi;
+                    }
+
+                    tokenlist_add(create_token(T_IDENTIFER, T_OUT, parenBuf, source[i], lineNum), tl);
                 }
             }
 
