@@ -29,7 +29,7 @@ ast parse(tokenlist_t tokens) {
                 printf("ERROR: Missing semicolon on line %d.\n", lastToken.lineNumber);
             } else if (lparenCount != rparenCount) {
                 __ast.__parse_status = SYNTAX_ERROR;
-                printf("ERROR: Unmatched parenthesis on line %d.", lastToken.lineNumber);
+                printf("ERROR: Unmatched parenthesis on line %d.\n", lastToken.lineNumber);
             }
 
             /* <== Begin Reset ==> */
