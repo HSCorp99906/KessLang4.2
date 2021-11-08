@@ -4,7 +4,7 @@
 void init_tokenlist(tokenlist_t*  tokenlist, size_t size) {
     tokenlist -> tokens = (token_t*)malloc(sizeof(struct __Token) * size);
     tokenlist -> size = size;
-    tokenlist -> ptr = 0;
+    tokenlist -> begin = 1;
 }
 
 
@@ -15,13 +15,15 @@ void destroy_tokenlist(tokenlist_t* tokenlist) {
 
 
 void tokenlist_add(token_t token, tokenlist_t* tokenlist) {
-    if (tokenlist -> ptr >= tokenlist -> size) {
-        tokenlist -> size *= 2;
-        tokenlist -> tokens = (token_t*)realloc(tokenlist -> tokens, sizeof(struct __Token*) * tokenlist -> size);
+    if (tokenlist -> begin) {
+        tokenlist -> tokens[0] = token;
+        tokenlist -> begin = 0;
+    } else {
+        tokenlist -> size += 2;
+        int size = tokenlist -> size;
+        tokenlist -> tokens = (token_t*)realloc(tokenlist -> tokens, sizeof(struct __Token) * size);
+        tokenlist -> tokens[tokenlist -> size - 1] = token;
     }
-
-    tokenlist -> tokens[tokenlist -> ptr] = token;
-    ++tokenlist -> ptr;
 }
 
 

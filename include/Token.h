@@ -32,7 +32,7 @@ typedef struct __Token {
 typedef struct __TokenList {
     token_t* tokens;
     size_t size;
-    unsigned int ptr;
+    unsigned short int begin;
 
 } tokenlist_t;
 

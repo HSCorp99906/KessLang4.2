@@ -2,7 +2,6 @@
 
 
 void tokenize(tokenlist_t* tl, char* source) {
-    typedef unsigned short int bool_t;
     char lex[500];
     unsigned int lexi = 0;
     unsigned int i = 0;
@@ -84,6 +83,9 @@ void tokenize(tokenlist_t* tl, char* source) {
                     case 'Y':
                     case 'Z':
                         tokenlist_add(create_token(T_CHAR, 0, NULL, source[i], lineNum), tl);
+                        break;
+                    case ';':
+                        tokenlist_add(create_token(T_END_STATEMENT, 0, NULL, source[i], lineNum), tl);
                         break;
                 }
 

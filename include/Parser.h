@@ -3,6 +3,7 @@
 
 #include "../include/Token.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 
 typedef enum __AST_TYPES {
