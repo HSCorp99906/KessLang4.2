@@ -9,7 +9,12 @@ void tokenize(tokenlist_t* tl, char* source) {
 
     while (1) {
         memset(lex, 0, 256);
-            while (source[i] != '\n' && source[i] != ' ' && source[i] != '\0') {
+            while (source[i] != '\n' && source[i] != ' ' && source[i] != '\0') {  /* No whitespace will be tokenized directly. */
+                if (source[i] == '/' && source[i + 1] == '/') {  /* Skips comments. */
+                    continue;
+
+                }
+
                 lex[lexi] = source[i];
 
                 switch (source[i]) {
@@ -19,6 +24,14 @@ void tokenize(tokenlist_t* tl, char* source) {
                     case ')':
                         tokenlist_add(create_token(T_RPAREN, 0, NULL, ')', lineNum), tl);
                         break;
+                    case '+':
+                        tokenlist_add(create_token(T_PLUS, 0, NULL, '+', lineNum), tl);
+                        break;
+                    case '-':
+                        tokenlist_add(create_token(T_MINUS, 0, NULL, '-', lineNum), tl);
+                        break;
+                    case '*':
+                        tokenlist_add(create_token(T_MUL, 0, NULL, '*', lineNum), tl);
                     case '0':
                     case '1':
                     case '2':
@@ -118,8 +131,5 @@ void tokenize(tokenlist_t* tl, char* source) {
                     tokenlist_add(create_token(T_IDENTIFER, T_OUT, parenBuf, source[i], lineNum), tl);
                 }
             }
-
-        lexi = 0;
-        ++i;
     }
 }

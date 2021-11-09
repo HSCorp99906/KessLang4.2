@@ -13,6 +13,10 @@ typedef enum __TokenTypes {
     T_INTEGER_LITERAL,
     T_END_STATEMENT,
     T_NEWLINE,
+    T_PLUS,
+    T_MINUS,
+    T_MUL,
+    T_DIV,
 } tokentype_t;
 
 
