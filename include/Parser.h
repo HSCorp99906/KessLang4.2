@@ -26,6 +26,7 @@ typedef struct __AST_NODE {
 
 
 typedef struct __AST {
+    char* type;
     size_t tree_size;
     astnode_t* nodes;
     parse_status __parse_status;

@@ -32,6 +32,7 @@ void tokenize(tokenlist_t* tl, char* source) {
                         break;
                     case '*':
                         tokenlist_add(create_token(T_MUL, 0, NULL, '*', lineNum), tl);
+                        break;
                     case '0':
                     case '1':
                     case '2':
